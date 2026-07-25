@@ -1,7 +1,9 @@
+import JobApplicationForm from "./forms/jobApplication/jobApplicationForm";
+
 function App() {
   return (
     <div>
-      <h1>Job Application Form</h1>
+      <JobApplicationForm />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const schemaPersonalInfo = z.object({
+export const schemaPersonalInfo = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
   email: z.email(),
@@ -56,7 +56,7 @@ const resumeSchema = z
   .refine(
     (file) => ACCEPTED_TYPE === file.type,
     ".pdf file is accepted."
-  );
+  ).optional();
 
 const coverSchema = z.string().max(1024, 'Too large').optional();
 
