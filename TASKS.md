@@ -13,10 +13,10 @@ Stack: React + TypeScript + React Hook Form + Zod + Tailwind CSS v4
 | 3 | Estudiar: Arquitectura de componentes reutilizables | ✅ Completo |
 | 4 | Estudiar: Custom hooks | ✅ Completo |
 | 5 | Estudiar: React Hook Form | ✅ Completo |
-| 6 | Estudiar: useFieldArray | ⬜ Pendiente |
-| 7 | Implementar: Skills selector | ⬜ Pendiente |
-| 8 | Implementar: File upload + Cover letter | ⬜ Pendiente |
-| 9 | Implementar: Submit + error handling | ⬜ Pendiente |
+| 6 | Estudiar: useFieldArray | ✅ Completo |
+| 7 | Implementar: Skills selector | ✅ Completo |
+| 8 | Implementar: File upload + Cover letter | ✅ Completo |
+| 9 | Implementar: Submit + error handling | ✅ Completo |
 | 10 | Implementar: Dirty state + analytics | ⬜ Pendiente |
 | 11 | Revisión final: accesibilidad + race conditions | ⬜ Pendiente |
 | 12 | Tailwind CSS + design system | ✅ Completo |
@@ -27,6 +27,7 @@ Stack: React + TypeScript + React Hook Form + Zod + Tailwind CSS v4
 | 17 | Bonus: Migrar mock API a tRPC | ⬜ Pendiente |
 | 18 | Bonus: Migrar estado a Zustand | ⬜ Pendiente |
 | 19 | Bonus: API route Next.js — POST con NextResponse y validación Zod | ⬜ Pendiente |
+| 20 | Refactor: Spinner real + TermsCheckbox como componente | ⬜ Pendiente |
 
 ---
 
@@ -122,7 +123,7 @@ Recursos:
 
 ---
 
-### ⬜ 6 — Estudiar: useFieldArray
+### ✅ 6 — Estudiar: useFieldArray
 
 Conceptos clave:
 - `useFieldArray`: `append`, `remove`, `fields` — cómo funciona internamente
@@ -379,6 +380,23 @@ Branch: `feature/zustand-migration`
 Migrar el estado del formulario de React Hook Form a Zustand + RHF en combinación.
 
 Prerequisito: tarea 16
+
+---
+
+### ⬜ 20 — Refactor: Spinner real + TermsCheckbox como componente
+
+**Spinner:**
+- Reemplazar el `<p>Displaying spinner....</p>` en `jobApplicationForm.tsx` por un componente `<Spinner />` real
+- SVG animado con `animate-spin` de Tailwind o CSS puro
+- Usar dentro del botón de submit: `<button disabled={isSubmitting}>{isSubmitting ? <Spinner /> : 'Submit'}</button>`
+
+**TermsCheckbox:**
+- Extraer el checkbox de terms de `jobApplicationForm.tsx` a `src/components/form/TermsCheckbox.tsx`
+- Usa `register('terms')` desde `useFormContext`
+- Muestra el error de terms si existe
+- Accesible: `htmlFor` + `id` + `aria-describedby`
+
+Prerequisito: tarea 9
 
 ---
 
