@@ -9,15 +9,15 @@ export const schemaPersonalInfo = z.object({
   portfolioURL: z.httpUrl().optional()
 })
 
-const schemaExperience = z.array(
+export const schemaExperience = z.array(
   z.object({
     companyName: z.string().min(1, 'Company name is required'),
     role: z.string().min(1, 'Role is required'),
-    startDate: z.date().refine(
+    startDate: z.coerce.date().refine(
       (date) => !isNaN(date.getTime()),
       { message: "Must be a valid date" }
     ),
-    endDate: z.date().optional().refine(
+    endDate: z.coerce.date().optional().refine(
       (date) => !isNaN(date?.getTime() || 0),
       { message: "Must be a valid date" }
     ),
@@ -71,4 +71,5 @@ export const jobApplicationSchema = z.object({
   terms: termsSchema,
 })
 
-export type JobApplication = z.infer<typeof jobApplicationSchema>;
+export type JobApplication = z.input<typeof jobApplicationSchema>;
+export type JobApplicationOutput = z.output<typeof jobApplicationSchema>;

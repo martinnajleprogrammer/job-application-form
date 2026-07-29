@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import useDebounce from "./useDebounce";
+import { checkEmail } from "../api";
 
 const useAsyncValidation = (mail: string) => {
 
@@ -13,10 +14,11 @@ const useAsyncValidation = (mail: string) => {
       const validateEmail = async () => {
         try {
           setIsChecking(true);
-          const response = await fetch(`https://api.example.com/validate-email?email=${mailDebounced}`, { signal: controller.signal });
-          const data = await response.json();
-          setIsAvailable(data.isValid);
-          if (!data.isValid) {
+          // const response = await fetch(`https://api.example.com/validate-email?email=${mailDebounced}`, { signal: controller.signal });
+          const response = await checkEmail(mailDebounced);
+          const isValid = await response.available;
+          setIsAvailable(isValid);
+          if (!isValid) {
             throw new Error("Email is already in use");
           }
         } catch (error) {
