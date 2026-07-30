@@ -1,11 +1,13 @@
 import FormField from "../form/FormField";
 import TextInput from "../form/TextInput";
+import SectionTitle from "../ui/SectionTitle";
+import SectionDivider from "../ui/SectionDivider";
 
 const PersonalInfoSection = () => {
   return <>
-    <h2 className="text-2xl text-slate-800 font-semibold tracking-tight">Personal Information</h2>
-    <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-2">
-      <FormField label="First Name" name="personalInfo.firstName">
+    <SectionTitle title="Personal Information" />
+    <div className="grid grid-cols-1 gap-y-4 gap-x-4 sm:grid-cols-2">
+      <FormField label="First Name" name="personalInfo.firstName" >
         <TextInput placeholder="First Name" />
       </FormField>
       <FormField label="Last Name" name="personalInfo.lastName">
@@ -24,6 +26,7 @@ const PersonalInfoSection = () => {
         <TextInput type="url" placeholder="Portfolio URL" />
       </FormField>
     </div>
+    <SectionDivider />
   </>
 };
 export default PersonalInfoSection;

@@ -15,9 +15,9 @@ const FormField = ({ label, name, children }: FormProps) => {
   return (
     <FormFieldContext.Provider value={{ name, hasError }}>
       <div className="flex flex-col gap-1">
-        <label htmlFor={name}>{label}</label>
+        <label className="font-sans text-s text-neutral-700 font-semibold" htmlFor={name}>{label}</label>
         {children}
-        {hasError && <span id={`error-${name}`}>{String(error?.message)}</span>}
+        {hasError && <span className="font-sans text-xs text-error-600 font-semibold" id={`error-${name}`}>{String(error?.message)}</span>}
       </div>
     </FormFieldContext.Provider>
   );

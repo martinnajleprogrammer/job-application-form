@@ -13,6 +13,8 @@ const TextInput = ({ type = "text", placeholder }: TextInputProps) => {
 
   return (
     <input
+      className={`text-neutral-900 ${hasError ? "border-error-500 bg-error-50" : "border-neutral-200 bg-neutral-50"} rounded-input border focus:outline-none focus:border-primary-500 
+      focus:shadow-focus w-full p-2 disabled:opacity-50 disabled:cursor-not-allowed`}
       placeholder={placeholder}
       {...register(name)}
       id={name}

@@ -63,10 +63,18 @@ const FileUpload = ({ name, accept, maxSize, label }: FileUploadProps) => {
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click()
       }}
+      className="flex flex-col items-center justify-center gap-2 w-full border-2 border-dashed border-neutral-300 rounded-card p-6 cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors focus:outline-none focus:border-primary-500"
+
     >
-      <label>{label ?? "Drop your file or browse"}</label>
-      {field.value && <span>{(field.value as File).name}</span>}
-      {sizeError && <span>{sizeError}</span>}
+      {field.value instanceof File ? (
+        <span className="text-sm text-primary-600 font-medium">{(field.value as File).name}</span>
+      ) : (
+        <>
+          <span className="text-sm text-neutral-500">{label ?? "Drop your PDF here or click to browse"}</span>
+          <span className="text-xs text-neutral-400">PDF only · max 5MB</span>
+        </>
+      )}
+      {sizeError && <span className="text-xs text-error-600">{sizeError}</span>}
       <input
         ref={inputRef}
         type="file"

@@ -17,7 +17,7 @@ Stack: React + TypeScript + React Hook Form + Zod + Tailwind CSS v4
 | 7 | Implementar: Skills selector | ✅ Completo |
 | 8 | Implementar: File upload + Cover letter | ✅ Completo |
 | 9 | Implementar: Submit + error handling | ✅ Completo |
-| 10 | Implementar: Dirty state + analytics | ⬜ Pendiente |
+| 10 | Implementar: Dirty state + analytics | ✅ Completo |
 | 11 | Revisión final: accesibilidad + race conditions | ⬜ Pendiente |
 | 12 | Tailwind CSS + design system | ✅ Completo |
 | 13 | Implementar: ErrorSummary | ⬜ Pendiente |
@@ -27,7 +27,9 @@ Stack: React + TypeScript + React Hook Form + Zod + Tailwind CSS v4
 | 17 | Bonus: Migrar mock API a tRPC | ⬜ Pendiente |
 | 18 | Bonus: Migrar estado a Zustand | ⬜ Pendiente |
 | 19 | Bonus: API route Next.js — POST con NextResponse y validación Zod | ⬜ Pendiente |
-| 20 | Refactor: Spinner real + TermsCheckbox como componente | ⬜ Pendiente |
+| 20 | Refactor: Spinner real + TermsCheckbox como componente | ✅ Completo |
+| 21 | Estilos: Aplicar Tailwind a todos los componentes según diseño Figma | ✅ Completo |
+| 22 | UX: View/Edit mode para experiencias laborales | ⬜ Pendiente |
 
 ---
 
@@ -397,6 +399,73 @@ Prerequisito: tarea 16
 - Accesible: `htmlFor` + `id` + `aria-describedby`
 
 Prerequisito: tarea 9
+
+---
+
+### ⬜ 21 — Estilos: Aplicar Tailwind a todos los componentes según diseño Figma
+
+Aplicar las clases de Tailwind v4 usando los tokens del design system (`--color-primary-*`, `--color-neutral-*`, `--color-error-*`, etc.) a todos los componentes del formulario.
+
+**Componentes a estilizar:**
+- `FormField.tsx` — label, error span
+- `TextInput.tsx` — border, focus ring, estado error (`border-error-500`, `shadow-focus`)
+- `SelectInput.tsx` — igual que TextInput
+- `FileUpload.tsx` — zona de drop, estado drag-over, nombre del archivo
+- `ExperiencesSection.tsx` — card por experiencia, botones add/remove
+- `SkillsSection.tsx` — chips predefinidos, chip seleccionado vs no seleccionado, input custom
+- `UploadSection.tsx` — contador de caracteres, indicador autosave
+- `TermsCheckbox.tsx` — checkbox + label
+- `JobApplicationForm.tsx` — layout general, botón submit, error root
+- `Spinner.tsx` (tarea 20)
+
+**Estados a cubrir por input:**
+- Default, focus, error, disabled
+
+**Referencias:**
+- `src/index.css` — tokens disponibles en `@theme`
+- `tokens.json` — diseño original
+- Figma: mockup de componentes armado en tarea 3
+
+Prerequisito: tareas 9, 20
+
+---
+
+### ⬜ 22 — UX: View/Edit mode para experiencias laborales
+
+Cada experiencia alterna entre modo vista (texto compacto) y modo edición (inputs).
+
+**View mode muestra:**
+```
+Acme Corp — Frontend Developer
+Jan 2022 - Currently working
+```
+
+**Comportamiento:**
+- Al agregar una nueva experiencia, abre automáticamente en edit mode
+- Botón "Edit" en view mode para volver a editar
+- Botón "Save" o colapso al hacer click fuera (opcional)
+
+**Approach sugerido — Accordion (un item abierto a la vez):**
+```ts
+const [editingIndex, setEditingIndex] = useState<number | null>(null)
+// Al hacer append:
+setEditingIndex(fields.length)
+append({...})
+```
+
+**Formato de fecha:**
+```ts
+const formatDate = (date?: Date) =>
+  date ? new Date(date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : ''
+
+`${formatDate(startDate)} - ${currentlyWorking ? 'Currently working' : formatDate(endDate)}`
+```
+
+**Lo que hay que resolver:**
+- Los valores en view mode vienen de `watch(`experiences.${index}`)` — ¿por qué watch y no getValues?
+- Al eliminar un item, resetear `editingIndex` si era el que estaba abierto
+
+Prerequisito: tarea 6
 
 ---
 
