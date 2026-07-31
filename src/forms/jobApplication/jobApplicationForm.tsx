@@ -1,4 +1,4 @@
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, type FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { jobApplicationSchema, type JobApplication, type JobApplicationOutput } from "./schema";
 import ExperiencesSection from "../../components/sections/ExperiencesSection";
@@ -10,8 +10,19 @@ import usePreventNavigation from "../../hooks/usePreventNavigation";
 import { useEffect, useRef } from "react";
 import Spinner from "../../components/ui/Spinner";
 import TermsCheckbox from "../../components/form/TermsCheckbox";
+import ErrorSummary from "../../components/form/ErrorSummary";
 
 export const sectionTitle = "text-2xl text-neutral-800 font-semibold tracking-tight mb-2";
+
+const flattenErrors = (errors: FieldErrors, prefix = ""): { id: string; message: string }[] =>
+  Object.entries(errors).flatMap(([key, value]) => {
+    if (!value) return [];
+    const id = prefix ? `${prefix}.${key}` : key;
+    if (typeof value.message === "string") {
+      return [{ id, message: value.message }];
+    }
+    return flattenErrors(value as FieldErrors, id);
+  });
 
 const JobApplicationForm = () => {
   const methods = useForm<JobApplication, unknown, JobApplicationOutput>({
@@ -33,8 +44,7 @@ const JobApplicationForm = () => {
       terms: false as unknown as true
     }
   });
-  const { setError, handleSubmit, formState: { isSubmitting, isSubmitted, errors, isDirty } } = methods;
-
+  const { reset, setError, handleSubmit, formState: { isSubmitting, isSubmitted, errors, isDirty } } = methods;
   usePreventNavigation(isDirty);
 
   const startTime = useRef<number | null>(null);
@@ -58,6 +68,7 @@ const JobApplicationForm = () => {
     try {
       await submitApplication(data);
       console.log(`Form submitted successfully in ${Date.now() - (startTime.current ?? Date.now())} ms`);
+      reset();
     }
     catch (error) {
       if (error instanceof Error && error.message === '500') {
@@ -75,6 +86,7 @@ const JobApplicationForm = () => {
         <h1 className="text-3xl text-neutral-900 font-semibold tracking-tight mb-8">Job Application</h1>
         <FormProvider {...methods}>
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+            {isSubmitted && <ErrorSummary errors={flattenErrors(errors)} />}
             <PersonalInfoSection />
             <ExperiencesSection />
             <SkillsSection />
