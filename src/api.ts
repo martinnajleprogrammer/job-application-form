@@ -2,7 +2,6 @@ import type { JobApplication } from "./forms/jobApplication/schema";
 
 // GET /api/check-email — para useAsyncValidation
 export async function checkEmail(): Promise<{ available: boolean }> {
-  // To use email: string
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (Math.random() < 0.3) return reject(new Error('500'));
